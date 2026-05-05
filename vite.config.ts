@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/braun-product-selector/',
+  base: '/',
   plugins: [tailwindcss(), react()],
 })
