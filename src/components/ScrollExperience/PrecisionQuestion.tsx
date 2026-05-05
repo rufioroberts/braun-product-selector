@@ -47,21 +47,21 @@ export function PrecisionQuestion({ category, onSelect }: PrecisionQuestionProps
   const options = getOptions(category);
 
   return (
-    <section ref={ref} className="relative py-20 md:py-28 bg-white min-h-screen flex items-center">
-      <div className="max-w-2xl mx-auto px-6 w-full">
+    <section ref={ref} className="relative py-12 md:py-28 bg-white min-h-[80vh] md:min-h-screen flex items-center">
+      <div className="max-w-2xl mx-auto px-4 md:px-6 w-full">
         {/* Question header */}
         <div
-          className={`text-center mb-12 transition-all duration-700 ${
+          className={`text-center mb-8 md:mb-12 transition-all duration-700 ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-400 mb-3">
+          <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-400 mb-2 md:mb-3">
             Step 3 of 4
           </p>
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900">
+          <h2 className="text-2xl md:text-4xl font-black text-gray-900">
             What matters most to you?
           </h2>
-          <p className="mt-3 text-gray-500">
+          <p className="mt-2 md:mt-3 text-gray-500 text-sm">
             This helps us match you to the right level.
           </p>
         </div>
@@ -77,7 +77,7 @@ export function PrecisionQuestion({ category, onSelect }: PrecisionQuestionProps
                 onClick={() => onSelect(option.id)}
                 onMouseEnter={() => setHoveredId(option.id)}
                 onMouseLeave={() => setHoveredId(null)}
-                className={`group w-full text-left rounded-xl p-5 md:p-6 transition-all duration-500 ${
+                className={`group w-full text-left rounded-xl p-4 md:p-6 transition-all duration-500 ${
                   isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
                 } ${
                   isHovered
@@ -90,12 +90,12 @@ export function PrecisionQuestion({ category, onSelect }: PrecisionQuestionProps
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${
+                    <h3 className={`text-base md:text-xl font-bold transition-colors duration-300 ${
                       isHovered ? 'text-white' : 'text-gray-900'
                     }`}>
                       {option.label}
                     </h3>
-                    <p className={`mt-1 text-sm transition-colors duration-300 ${
+                    <p className={`mt-0.5 md:mt-1 text-xs md:text-sm transition-colors duration-300 ${
                       isHovered ? 'text-gray-300' : 'text-gray-500'
                     }`}>
                       {option.description}

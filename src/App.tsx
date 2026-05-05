@@ -1,8 +1,12 @@
 import { AmazonHeader } from './components/AmazonHeader';
 import { AmazonFooter } from './components/AmazonFooter';
 import { ScrollExperience } from './components/ScrollExperience';
+import { useState } from 'react';
 
 function App() {
+  // Track whether user has entered the tool (past gender selection)
+  const [inTool, setInTool] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Skip navigation */}
@@ -13,14 +17,16 @@ function App() {
         Skip to main content
       </a>
 
-      <AmazonHeader />
+      {/* Amazon header only shows before entering the tool */}
+      {!inTool && <AmazonHeader />}
 
       {/* Main content */}
       <main id="main-content" className="flex-1 overflow-hidden">
-        <ScrollExperience />
+        <ScrollExperience onEnterTool={() => setInTool(true)} onExitTool={() => setInTool(false)} />
       </main>
 
-      <AmazonFooter />
+      {/* Amazon footer only shows before entering the tool */}
+      {!inTool && <AmazonFooter />}
     </div>
   );
 }

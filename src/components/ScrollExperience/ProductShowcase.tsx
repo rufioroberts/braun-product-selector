@@ -337,7 +337,7 @@ export function ProductShowcase({ category, matchedTier, onReset, onFullReset }:
               onClick={onFullReset || onReset}
               className="flex items-center gap-1 text-[11px] font-medium text-gray-400 hover:text-gray-700 transition-colors py-3"
             >
-              Reset
+              Start over
             </button>
           </div>
         </div>
@@ -358,7 +358,7 @@ export function ProductShowcase({ category, matchedTier, onReset, onFullReset }:
               onClick={onFullReset || onReset}
               className="text-xs font-medium text-gray-400 hover:text-gray-700 transition-colors"
             >
-              Reset
+              Start over
             </button>
           </div>
         </div>
@@ -381,7 +381,7 @@ export function ProductShowcase({ category, matchedTier, onReset, onFullReset }:
           onClick={onFullReset || onReset}
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-900 hover:bg-gray-800 text-sm font-semibold text-white rounded-full transition-colors"
         >
-          Start a new quest
+          Start over
         </button>
       </div>
     </div>
@@ -434,13 +434,13 @@ function ProductTile({ product, index }: { product: Product; index: number }) {
   
   return (
     <div
-      className="group rounded-xl border border-gray-200 overflow-hidden bg-white hover:shadow-lg transition-all duration-200"
+      className="group flex flex-col rounded-xl border border-gray-200 overflow-hidden bg-white hover:shadow-lg transition-all duration-200"
       style={{ animationDelay: `${index * 80}ms` }}
     >
       {/* Premium badge */}
       {isPremium && (
         <div className="px-4 py-1.5 bg-gray-900 text-center">
-          <span className="text-[10px] font-bold tracking-wider uppercase text-white">Built to last</span>
+          <span className="text-[10px] font-bold tracking-wider uppercase text-white">Built to last · Engineered for 7+ years of daily use</span>
         </div>
       )}
 
@@ -457,35 +457,38 @@ function ProductTile({ product, index }: { product: Product; index: number }) {
       </div>
 
       {/* Product info: tight, scannable */}
-      <div className="p-4">
+      <div className="flex flex-col flex-1 p-4">
         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wide mb-0.5">{product.series}</p>
         <h4 className="font-bold text-gray-900 text-sm leading-snug mb-1">{product.name}</h4>
         <p className="text-xs text-gray-500 mb-3 line-clamp-1">{product.features[0]}</p>
 
-        {/* Price */}
-        {product.priceRange && (
-          <p className="text-lg font-bold text-gray-900 mb-3">{product.priceRange}</p>
-        )}
+        {/* Spacer pushes CTA to bottom */}
+        <div className="mt-auto">
+          {/* Price */}
+          {product.priceRange && (
+            <p className="text-lg font-bold text-gray-900 mb-3">{product.priceRange}</p>
+          )}
 
-        {/* Add to Cart */}
-        <a
-          href={`https://www.amazon.com.au/dp/${product.asin}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center py-2.5 px-4 bg-[#FFD814] hover:bg-[#F7CA00] text-sm font-medium text-gray-900 rounded-full border border-[#FCD200] shadow-sm transition-colors"
-        >
-          Add to Cart
-        </a>
+          {/* Add to Cart */}
+          <a
+            href={`https://www.amazon.com.au/dp/${product.asin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center py-2.5 px-4 bg-[#FFD814] hover:bg-[#F7CA00] text-sm font-medium text-gray-900 rounded-full border border-[#FCD200] shadow-sm transition-colors"
+          >
+            Add to Cart
+          </a>
 
-        {/* Secondary */}
-        <a
-          href={`https://www.amazon.com.au/dp/${product.asin}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full text-center mt-2 py-1.5 text-xs text-[#007185] hover:text-[#c7511f] hover:underline transition-colors"
-        >
-          See full details
-        </a>
+          {/* Secondary */}
+          <a
+            href={`https://www.amazon.com.au/dp/${product.asin}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block w-full text-center mt-2 py-1.5 text-xs text-[#007185] hover:text-[#c7511f] hover:underline transition-colors"
+          >
+            See full details
+          </a>
+        </div>
       </div>
     </div>
   );

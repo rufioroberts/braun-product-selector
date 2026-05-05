@@ -8,7 +8,7 @@ import { MatchReveal } from './MatchReveal';
 import { ProductShowcase } from './ProductShowcase';
 import { ProgressBar } from './ProgressBar';
 
-export function ScrollExperience() {
+export function ScrollExperience({ onEnterTool, onExitTool }: { onEnterTool?: () => void; onExitTool?: () => void }) {
   const {
     phase,
     selections,
@@ -26,13 +26,14 @@ export function ScrollExperience() {
   const precisionRef = useRef<HTMLDivElement>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
 
-  // Gender selected -> scroll to categories
+  // Gender selected -> scroll to top then show categories
   const handleGenderSelect = useCallback((gender: 'Men' | 'Women') => {
+    // Scroll to top immediately before phase change
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
     selectGender(gender);
-    setTimeout(() => {
-      categoryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 800);
-  }, [selectGender]);
+    // Notify parent we're in the tool now (hide Amazon chrome)
+    onEnterTool?.();
+  }, [selectGender, onEnterTool]);
 
   // Category selected -> scroll to precision question (or reveal if skipped)
   const handleCategorySelect = useCallback((category: Parameters<typeof selectCategory>[0]) => {
@@ -80,7 +81,9 @@ export function ScrollExperience() {
   const handleFullReset = useCallback(() => {
     reset();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [reset]);
+    // Notify parent we're back to hero (show Amazon chrome)
+    onExitTool?.();
+  }, [reset, onExitTool]);
 
   return (
     <div className="relative">
@@ -112,23 +115,12 @@ export function ScrollExperience() {
       {/* Phase: Category — includes a transition bridge from gender */}
       {phase === 'category' && selections.gender && (
         <div ref={categoryRef}>
-          {/* Transition bridge: dark-to-light gradient with acknowledgement */}
-          <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-gray-50 py-24 md:py-32">
-            <div className="max-w-xl mx-auto px-6 text-center" style={{ animation: 'fadeSlideIn 0.8s ease-out forwards' }}>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
-                <svg className="w-4 h-4 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-sm font-medium text-white/80">
-                  {selections.gender === 'Men' ? "Men's grooming" : "Women's care"} — got it
-                </span>
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white/90">
-                Now, what are you trying to achieve?
+          {/* Transition bridge: minimal */}
+          <div className="relative bg-gradient-to-b from-gray-900 to-gray-50 py-6 md:py-8">
+            <div className="max-w-xl mx-auto px-5 text-center" style={{ animation: 'fadeSlideIn 0.8s ease-out forwards' }}>
+              <h2 className="text-lg md:text-xl font-bold text-white/90">
+                What are you trying to achieve?
               </h2>
-              <p className="mt-3 text-gray-400 text-sm">
-                Pick the goal that sounds most like you.
-              </p>
             </div>
           </div>
 
@@ -162,15 +154,28 @@ export function ScrollExperience() {
         />
       )}
 
-      {/* Phase: Product Showcase */}
+      {/* Phase: Product Showcase — fades in from dark bg */}
       {phase === 'showcase' && selections.category && (
-        <div ref={showcaseRef} style={{ animation: 'fadeSlideIn 0.5s ease-out forwards' }}>
-          <ProductShowcase
-            category={selections.category}
-            matchedTier={selections.matchedTier}
-            onReset={handleGoBack}
-            onFullReset={handleFullReset}
-          />
+        <div ref={showcaseRef}>
+          {/* Dark-to-content gradient bridge */}
+          <div className="bg-gradient-to-b from-gray-950 via-gray-900 to-gray-50 pt-16 pb-8 md:pt-24 md:pb-12">
+            <div className="max-w-xl mx-auto px-5 text-center" style={{ animation: 'fadeSlideIn 0.8s ease-out forwards' }}>
+              <p className="text-xs font-medium tracking-[0.3em] uppercase text-gray-500 mb-2">
+                Matched to your routine
+              </p>
+              <h2 className="text-2xl md:text-4xl font-bold text-white">
+                {selections.matchedTier === 'Premium' ? 'The best we make' : selections.matchedTier === 'Mid-Range' ? 'Smart performance' : 'Reliable daily use'}
+              </h2>
+            </div>
+          </div>
+          <div style={{ animation: 'fadeSlideIn 0.6s 0.3s ease-out forwards', opacity: 0 }}>
+            <ProductShowcase
+              category={selections.category}
+              matchedTier={selections.matchedTier}
+              onReset={handleGoBack}
+              onFullReset={handleFullReset}
+            />
+          </div>
         </div>
       )}
     </div>

@@ -64,11 +64,11 @@ export function CategoryChapters({ gender, onSelect, selected: _selected }: Cate
   const goals = gender === 'Men' ? MEN_GOALS : WOMEN_GOALS;
 
   return (
-    <section ref={ref} className="relative py-12 md:py-16 bg-gray-50 min-h-[60vh] flex items-start">
-      <div className="max-w-2xl mx-auto px-6 w-full">
+    <section ref={ref} className="relative min-h-[calc(100dvh-44px)] md:min-h-0 py-6 md:py-6 bg-gray-50 flex items-center">
+      <div className="max-w-2xl mx-auto px-5 md:px-6 w-full">
 
         {/* Goal options */}
-        <div className="space-y-3">
+        <div className="space-y-3 md:space-y-2.5">
           {goals.map((goal, index) => {
             const isHovered = hoveredIndex === index;
 
@@ -91,12 +91,12 @@ export function CategoryChapters({ gender, onSelect, selected: _selected }: Cate
               >
                 <div className="flex items-center justify-between gap-4">
                   <div className="flex-1">
-                    <h3 className={`text-lg md:text-xl font-bold transition-colors duration-300 ${
+                    <h3 className={`text-base md:text-xl font-bold transition-colors duration-300 ${
                       isHovered ? 'text-white' : 'text-gray-900'
                     }`}>
                       {goal.goal}
                     </h3>
-                    <p className={`mt-1 text-sm transition-colors duration-300 ${
+                    <p className={`mt-0.5 md:mt-1 text-xs md:text-sm transition-colors duration-300 ${
                       isHovered ? 'text-gray-300' : 'text-gray-500'
                     }`}>
                       {goal.description}

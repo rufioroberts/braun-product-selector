@@ -35,17 +35,17 @@ export function GenderReveal({ onSelect, selected }: GenderRevealProps) {
         isInView ? 'opacity-100' : 'opacity-0'
       }`}
     >
-      {/* Question overlay — positioned at top, not center, to avoid collision with option labels */}
+      {/* Question overlay — positioned at top */}
       <div
-        className={`absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-none pt-[12vh] md:pt-[15vh] transition-all duration-700 ${
+        className={`absolute top-0 left-0 right-0 z-20 flex justify-center pointer-events-none pt-[8vh] md:pt-[15vh] transition-all duration-700 ${
           isSelected ? 'opacity-0 -translate-y-8' : 'opacity-100 translate-y-0'
         }`}
       >
-        <div className="text-center px-6">
-          <p className="text-sm font-medium tracking-[0.2em] uppercase text-white/70 mb-3 drop-shadow-lg">
+        <div className="text-center px-4">
+          <p className="text-xs md:text-sm font-medium tracking-[0.2em] uppercase text-white/70 mb-2 md:mb-3 drop-shadow-lg">
             Start here
           </p>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] drop-shadow-xl">
+          <h2 className="text-2xl md:text-5xl lg:text-6xl font-black text-white leading-[1.1] drop-shadow-xl">
             I'm looking for...
           </h2>
         </div>
@@ -192,11 +192,11 @@ export function GenderReveal({ onSelect, selected }: GenderRevealProps) {
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-full bg-gray-700/30" />
           </div>
-          <div className={`relative z-10 h-full flex items-end justify-center pb-12 px-6 transition-all duration-500 ${
+          <div className={`relative z-10 h-full flex items-end justify-center pb-16 px-6 transition-all duration-500 ${
             isSelected && selected !== 'Men' ? 'opacity-0' : 'opacity-100'
           }`}>
             <div className="text-center">
-              <h3 className="text-2xl font-black text-white mb-1">Men's Grooming</h3>
+              <h3 className="text-xl font-black text-white mb-1">Men's Grooming</h3>
               <p className="text-white/60 text-xs">Shavers, trimmers & groomers</p>
             </div>
           </div>
@@ -219,11 +219,11 @@ export function GenderReveal({ onSelect, selected }: GenderRevealProps) {
           <div className="absolute inset-0 overflow-hidden">
             <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-gray-500/20" />
           </div>
-          <div className={`relative z-10 h-full flex items-start justify-center pt-12 px-6 transition-all duration-500 ${
+          <div className={`relative z-10 h-full flex items-start justify-center pt-16 px-6 transition-all duration-500 ${
             isSelected && selected !== 'Women' ? 'opacity-0' : 'opacity-100'
           }`}>
             <div className="text-center">
-              <h3 className="text-2xl font-black text-white mb-1">Women's Care</h3>
+              <h3 className="text-xl font-black text-white mb-1">Women's Care</h3>
               <p className="text-white/60 text-xs">IPL hair removal & facial care</p>
             </div>
           </div>
