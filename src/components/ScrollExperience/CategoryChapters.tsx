@@ -57,7 +57,7 @@ const WOMEN_GOALS: GoalOption[] = [
   },
 ];
 
-export function CategoryChapters({ gender, onSelect, selected }: CategoryChaptersProps) {
+export function CategoryChapters({ gender, onSelect, selected: _selected }: CategoryChaptersProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const { ref, isInView } = useInView({ threshold: 0.1, once: true });
 
