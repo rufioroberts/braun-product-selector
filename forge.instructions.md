@@ -1,44 +1,71 @@
-# Braun AU — Product Selector Wireframe Prototype
+# Braun AU — Quest for Precision Product Selector
 
 ## Overview
 - **Type**: Single Page Application (React + Vite + TypeScript)
 - **Styling**: Tailwind CSS v4 (utility-first, no custom CSS resets needed)
 - **UI Libraries**: lucide-react (icons)
 - **Dev Server**: Vite with HMR (auto-reloads on save)
+- **Deployment**: GitHub Pages via GitHub Actions (auto-deploys on push to main)
+- **Staging URL**: https://rufioroberts.github.io/braun-product-selector/
+- **Repo**: https://github.com/rufioroberts/braun-product-selector
+
+## Deployment Notes
+- GitHub Pages is set to deploy via **GitHub Actions** (not branch)
+- Workflow file: `.github/workflows/deploy.yml`
+- Uses Node 22, `npm install --registry https://registry.npmjs.org/`
+- **IMPORTANT**: No `package-lock.json` in repo (deleted to avoid auth token issues from local Amazon npm config)
+- **IMPORTANT**: `.npmrc` is in `.gitignore` — never commit local npm auth configs
+- Vite `base` is set to `/braun-product-selector/` for GitHub Pages path
+- To deploy: just `git push` to main — workflow auto-triggers
+- Build command: `npm run build` (runs `tsc -b && vite build`)
+- **TypeScript strict mode**: Build will fail on unused variables/imports — always run `npx vite build` locally before pushing
+
+## Git Workflow
+```bash
+cd /Users/robsmat/Documents/Smith/braun-product-selector
+git add .
+git commit -m "your message"
+git push
+```
+That's it. GitHub Actions handles the rest.
 
 ## Project Context
 - **Client:** Procter & Gamble (Braun)
 - **Market:** Amazon AU
 - **Deliverable:** Interactive product selector wireframe for Brand Store
-- **Concept:** "Scroll-to-Discover" — one continuous scroll experience with soft interactions
+- **Campaign:** "Quest for Precision"
+- **Concept:** Gamified match-finder — a quest that leads to a personalized product reveal
 
 ## Architecture
 - Entry point: `src/main.tsx`
 - Root component: `src/App.tsx`
 - Global styles: `src/index.css` (Tailwind import + keyframe animations)
 
-## Design Concept: Scroll-to-Discover
+## Design Concept: Quest for Precision
 
-The experience is a streamlined two-decision flow:
-1. **Range selection** — "I'm looking for..." → Men's Grooming / Women's Care (immersive split-screen)
-2. **Category selection** — chapters that expand on tap to reveal tabbed product showcase
+The experience is a **gamified quest** that makes the user feel like they're being personally matched to a product — not just filtering a catalog.
 
-After those two choices, the experience becomes a **tabbed product showcase** where each tier is a tab:
-- Premium | Mid-Range | Entry | Compare
-- Each tab shows: headline, "This is for you if...", RTBs, specs, product cards
-- Compare tab shows side-by-side table + all products
-
-The products sell themselves through content. No "pick a budget" step. No filler between decisions.
-
-## Flow (Current)
+### Flow (Current — Rebuilt)
 ```
-Hero → Gender Split → [auto-scroll] → Category Selection → Tabbed Showcase
+Hero → Gender Selection → Transition Bridge → Category Goals → Precision Question → Match Reveal → Product Showcase
 ```
 
-**Key principle:** Two screens. Two decisions. No filler between them.
-- No transition prompt (killed — was a dead stop)
-- No breathing moment between decisions (killed — moved brand proof into showcase header)
-- Gender selection auto-advances to categories after the split animation
+### Steps:
+1. **Hero** — "Your Quest for Precision Starts Here" — sets up the journey metaphor
+2. **Gender Selection** — "I'm looking for..." → Men's Grooming / Women's Care (dark split-screen)
+3. **Transition Bridge** — acknowledges choice ("Men's grooming — got it"), gradient from dark to light, asks "What are you trying to achieve?"
+4. **Category Goals** — goal-framed options (not catalog items): "The closest possible shave", "Shape and define my beard", etc.
+5. **Precision Question** — "What matters most to you?" — maps to tiers without saying "pick a budget"
+6. **Match Reveal** — animated reveal moment: "Finding your precision match..." → "Your Precision Match"
+7. **Product Showcase** — tabbed tier view with matched tier highlighted, user-centric language, longevity badges on premium
+
+### Key Design Principles
+- **Quest framing** — every step feels like progress toward a personal discovery
+- **User-centric language** — "Your closest shave" not "The closest shave we make"
+- **Micro-rewards** — acknowledgement after each choice ("Got it", checkmarks, pulses)
+- **Reveal moment** — dedicated beat between questions and results creates anticipation
+- **Investment justification** — premium products get "Built to last" / longevity badges
+- **No budget question** — precision question maps to tiers through aspirational language
 
 ## File Structure
 ```
@@ -46,69 +73,44 @@ src/
   components/
     AmazonHeader.tsx          # Amazon Brand Store chrome
     AmazonFooter.tsx          # Amazon footer
-    DesignerHint.tsx          # Blue dashed annotation (supports inline + fixed positions)
+    DesignerHint.tsx          # Blue dashed annotation
     AccessibilityHint.tsx     # Teal dashed annotation
     EdgeCaseViewer.tsx        # Fixed bottom-left panel
-    ProductCard.tsx           # Shared product card (legacy, kept for reference)
+    ProductCard.tsx           # Shared product card (legacy)
     ScrollExperience/
-      index.tsx               # Main orchestrator (lean — no transition/breathing)
-      HeroSection.tsx         # Opening brand moment (dark, animated)
-      GenderReveal.tsx        # "I'm looking for..." split-screen selection
-      CategoryChapters.tsx    # Expandable category list — showcase renders INSIDE
-      ProductShowcase.tsx     # Tabbed tier comparison (Premium/Mid/Entry/Compare)
-      ProgressBar.tsx         # Fixed nav — visible on category phase, hidden on showcase
-      TransitionPrompt.tsx    # UNUSED (kept for reference, not imported)
-      BreathingMoment.tsx     # UNUSED (kept for reference, not imported)
+      index.tsx               # Main orchestrator — wires all phases together
+      HeroSection.tsx         # "Your Quest for Precision" opening
+      GenderReveal.tsx        # Split-screen gender selection
+      TransitionBridge (in index.tsx) # Dark-to-light gradient bridge after gender
+      CategoryChapters.tsx    # Goal-framed category selection
+      PrecisionQuestion.tsx   # "What matters most?" — maps to tiers
+      MatchReveal.tsx         # Animated reveal moment
+      ProductShowcase.tsx     # Tabbed product display with matched tier
+      ProgressBar.tsx         # Step progress indicator
+      TransitionPrompt.tsx    # UNUSED (kept for reference)
+      BreathingMoment.tsx     # UNUSED (kept for reference)
     ProductLogic/
       index.tsx               # Decision tree (internal view)
   data/
     products.ts               # 21 typed products from CSV
   hooks/
-    useScrollSelector.ts      # State: phase, selections, localStorage
+    useScrollSelector.ts      # State: phase (hero/gender/category/precision/reveal/showcase)
     useInView.ts              # Intersection Observer hook
     useScrollProgress.ts      # Scroll progress (0-1) for a section
     useMouseParallax.ts       # Mouse-driven parallax transforms
     useProductSelector.ts     # Legacy hook (kept for ProductLogic)
 ```
 
-## Current State
+## State Management (useScrollSelector)
 
-### Flow Detail
-1. **Hero** — full-viewport dark section, animated typography, "Begin" CTA
-   - Copy: "Precision, tailored to you." / "Two choices. One perfect recommendation."
-2. **Gender Split** — "I'm looking for..." with Men's Grooming / Women's Care
-   - Full-screen split, hover expands one side, click auto-advances
-   - Labels positioned in lower third to avoid collision with question text at top
-3. **Category Chapters** — each category as a tappable chapter card
-   - On selection: other cards collapse, selected stays as header, showcase expands below
-   - No jump cut — content renders INSIDE the selected card
-4. **Product Showcase** (tabbed) — expands in place with:
-   - Inline nav bar (replaces hidden progress bar): "Change category" / "Start over"
-   - Tabs: Premium | Mid-Range | Entry | Compare
-   - Each tier tab: headline, "This is for you if...", RTBs, specs, product cards
-   - Compare tab: side-by-side table + all products grid
-   - Brand credibility line in header: "100+ years of German engineering"
-   - Bottom CTA: "Choose a different category" / "Start completely over"
+Phases: `hero` → `gender` → `category` → `precision` → `reveal` → `showcase`
 
-### Navigation Architecture
-- **Progress bar** (fixed top): visible only during category selection phase
-- **Showcase inline nav** (sticky top): visible during showcase phase — has "Change category" + "Start over"
-- **Breadcrumb chips** (desktop): editable previous answers in progress bar
-- **Bottom CTAs**: always present at end of showcase content
-- **Category card header**: selected category stays visible as context anchor
+Selections stored:
+- `gender`: 'mens' | 'womens'
+- `category`: string (e.g., 'Electric Shaver')
+- `precision`: 'premium' | 'mid' | 'entry' (mapped from aspirational question)
 
-### Key Design Decisions
-- **No tiles/cards for questions** — interactions use scroll-reveals and expanding elements
-- **No budget/tier question** — replaced with tabbed product education
-- **Tabs not scroll** — tiers are alternatives (pick one), not a sequence (read all)
-- **Category selection is soft** — tap a chapter to expand, not a hard filter step
-- **Products sell themselves** — RTBs, specs, and positioning do the work
-- **"View on Amazon" is primary CTA** — this tool recommends, doesn't sell
-- **No filler between decisions** — killed transition prompt and breathing moment
-- **Progress bar hides during showcase** — tabs provide enough context, avoids chrome stacking
-- Amazon yellow uses `bg-[#ffd814]`
-- Grayscale wireframe palette throughout
-- IMG placeholder pattern for product images
+Persists to localStorage for session continuity.
 
 ## Product Data
 - 21 SKUs across 6 categories
@@ -116,8 +118,25 @@ src/
 - Tiers: Premium, Mid-Range, Entry
 - Each product has: asin, name, category, tier, series, gender, features[], priceRange
 
+## Brief Alignment
+
+| Brief Requirement | Implementation |
+|---|---|
+| "Gamified element" | Quest framing + precision question + reveal moment |
+| "Find their perfect match" | Dedicated match reveal screen |
+| "Precision tailored to you" | All user-centric language throughout |
+| "Decision fatigue solved" | Progressive disclosure, never see all 21 |
+| "Premium feels rewarding" | Investment/longevity framing on premium tier |
+| "Longevity of Braun" | "Built to last" badges on premium products |
+| "Quest for Precision" campaign | Hero framing, journey language throughout |
+| "Add to cart" | Yellow CTA on every product tile |
+
 ## Language Decisions
+- Hero: "Your Quest for Precision Starts Here"
 - Gender question: "I'm looking for..." (not "Who are you shopping for?")
 - Options: "Men's Grooming" / "Women's Care" (product ranges, not people)
-- Back labels: "Change range" / "Change category" (contextual, not generic)
-- Hero: "Two choices. One perfect recommendation." (accurate promise)
+- Categories framed as goals: "The closest possible shave" not "Electric Shavers"
+- Precision question: aspirational language maps to tiers without mentioning budget
+- Results: "Your precision match" / "Matched to your routine"
+- Premium badges: "Built to last" / "Best long-term value"
+- Amazon yellow: `bg-[#ffd814]`
