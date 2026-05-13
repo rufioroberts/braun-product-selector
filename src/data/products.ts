@@ -47,13 +47,13 @@ export const products: Product[] = [
   },
   {
     asin: 'B08M4W4VGH',
-    name: 'Braun Series 7 R1000s Electric Shaver',
+    name: 'Braun Series 6 61-R1000s Electric Shaver',
     category: 'Electric Shaver',
     gender: 'Men',
-    tier: 'Premium',
-    series: 'Series 7',
+    tier: 'Mid-Range',
+    series: 'Series 6',
     bodyArea: 'Face',
-    features: ['360° Flex Head', 'SmartCare Center Compatible', 'Rechargeable'],
+    features: ['SensoFlex Swivel Head', 'EasyClick Attachments', 'Wet & Dry'],
   },
   {
     asin: 'B09ZD8VT6S',
@@ -187,13 +187,13 @@ export const products: Product[] = [
   },
   {
     asin: 'B07N1GCPC9',
-    name: 'Braun Silk-expert Pro 5 PL5137',
+    name: 'Braun Silk-expert Pro 5 PL5157',
     category: 'IPL Hair Removal',
     gender: 'Women',
     tier: 'Premium',
     series: 'Pro 5',
     bodyArea: 'Full Body',
-    features: ['Visible Hair Removal in 4 Weeks', '400000 Flashes', 'Precision Head Included'],
+    features: ['Visible Hair Removal in 4 Weeks', '400000 Flashes', 'Venus Razor & Pouch Included'],
   },
   {
     asin: 'B0B87NVKF4',
@@ -207,7 +207,7 @@ export const products: Product[] = [
   },
   {
     asin: 'B077ZM2QKC',
-    name: 'Braun FaceSpa Pro SE921',
+    name: 'Braun FaceSpa SE911 Facial Epilator',
     category: 'Facial Care',
     gender: 'Women',
     tier: 'Premium',

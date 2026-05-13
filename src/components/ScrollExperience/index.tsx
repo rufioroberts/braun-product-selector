@@ -114,24 +114,12 @@ export function ScrollExperience({ onEnterTool, onExitTool }: { onEnterTool?: ()
 
       {/* Phase: Category — includes a transition bridge from gender */}
       {phase === 'category' && selections.gender && (
-        <div ref={categoryRef}>
-          {/* Transition bridge: minimal */}
-          <div className="relative bg-gradient-to-b from-gray-900 to-gray-50 py-6 md:py-8">
-            <div className="max-w-xl mx-auto px-5 text-center" style={{ animation: 'fadeSlideIn 0.8s ease-out forwards' }}>
-              <h2 className="text-lg md:text-xl font-bold text-white/90">
-                What are you trying to achieve?
-              </h2>
-            </div>
-          </div>
-
-          {/* Category options */}
-          <div style={{ animation: 'fadeSlideIn 0.6s 0.2s ease-out forwards', opacity: 0 }}>
-            <CategoryChapters
-              gender={selections.gender}
-              onSelect={handleCategorySelect}
-              selected={selections.category}
-            />
-          </div>
+        <div ref={categoryRef} style={{ animation: 'fadeSlideIn 0.6s ease-out forwards' }}>
+          <CategoryChapters
+            gender={selections.gender}
+            onSelect={handleCategorySelect}
+            selected={selections.category}
+          />
         </div>
       )}
 
@@ -154,28 +142,15 @@ export function ScrollExperience({ onEnterTool, onExitTool }: { onEnterTool?: ()
         />
       )}
 
-      {/* Phase: Product Showcase — fades in from dark bg */}
+      {/* Phase: Product Showcase — self-contained dark-to-light reveal */}
       {phase === 'showcase' && selections.category && (
         <div ref={showcaseRef}>
-          {/* Dark-to-content gradient bridge */}
-          <div className="bg-gradient-to-b from-gray-950 via-gray-900 to-gray-50 pt-16 pb-8 md:pt-24 md:pb-12">
-            <div className="max-w-xl mx-auto px-5 text-center" style={{ animation: 'fadeSlideIn 0.8s ease-out forwards' }}>
-              <p className="text-xs font-medium tracking-[0.3em] uppercase text-gray-500 mb-2">
-                Matched to your routine
-              </p>
-              <h2 className="text-2xl md:text-4xl font-bold text-white">
-                {selections.matchedTier === 'Premium' ? 'The best we make' : selections.matchedTier === 'Mid-Range' ? 'Smart performance' : 'Reliable daily use'}
-              </h2>
-            </div>
-          </div>
-          <div style={{ animation: 'fadeSlideIn 0.6s 0.3s ease-out forwards', opacity: 0 }}>
-            <ProductShowcase
-              category={selections.category}
-              matchedTier={selections.matchedTier}
-              onReset={handleGoBack}
-              onFullReset={handleFullReset}
-            />
-          </div>
+          <ProductShowcase
+            category={selections.category}
+            matchedTier={selections.matchedTier}
+            onReset={handleGoBack}
+            onFullReset={handleFullReset}
+          />
         </div>
       )}
     </div>

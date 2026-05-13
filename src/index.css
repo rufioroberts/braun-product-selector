@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Hide scrollbar on carousel */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 @keyframes fadeSlideIn {
   from {
     opacity: 0;
